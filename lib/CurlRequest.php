@@ -28,6 +28,13 @@ class CurlRequest
      */
     public static $lastHttpCode;
 
+    /**
+     * HTTP Headers of the last executed request
+     *
+     * @var array
+     */
+    public static $lastHttpHeaders = [];
+
 
     /**
      * Initialize the curl resource
@@ -150,6 +157,7 @@ class CurlRequest
             $response = new CurlResponse($output);
 
             self::$lastHttpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            self::$lastHttpHeaders = $response->getHeaders();
             if (self::$lastHttpCode != 429) {
                 break;
             }
@@ -172,5 +180,5 @@ class CurlRequest
 
         return $response->getBody();
     }
-    
+
 }
